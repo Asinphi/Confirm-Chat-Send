@@ -26,7 +26,16 @@ function promptConfirmation(message: ChatMessageData) {
     form.insertBefore(confirmationBox, chatBox);
     const submitButton = confirmationBox.querySelector(".send-confirmation__submit") as HTMLInputElement;
     const cancelButton = confirmationBox.querySelector(".send-confirmation__cancel") as HTMLInputElement;
-    cancelButton.focus(); // Unfocus the text box so they can't continue typing
+    switch (game.settings.get(ConfirmChatSend.ID, "enter-key-behavior")) {
+        case "cancel":
+            cancelButton.focus();
+            break;
+        case "confirm":
+            submitButton.focus();
+            break;
+        default:
+            break;
+    }
 
     let onConfirm: () => void;
     let onCancel: () => void;
