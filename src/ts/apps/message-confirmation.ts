@@ -59,6 +59,8 @@ function promptConfirmation(message: ChatMessageData) {
         ChatMessage.create(message).then(() => {
             isPrompting = false;
         });
+        if (game.modules.get("reveal-typing")?.active)
+            game.socket?.emit("module.reveal-typing", {userName: game.user.name, message: ""});
     }
     onCancel = () => {
         ConfirmChatSend.log("Message cancelled");
